@@ -1,0 +1,10 @@
+{
+    "feeds":[
+    {
+        "name":"relay-1"
+    },
+    {
+        "name":"relay-2"
+    }
+    ]
+}
