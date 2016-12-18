@@ -34,3 +34,32 @@ def getFeeds():
     #print feeds['feeds']
     
     return feeds['feeds']
+    
+def getFeedStatus(feeds):
+    feedValues = []
+    
+    friends = '{"name": "Fred", "id": 1}'
+
+
+    friends_obj = json.loads(friends)
+    
+    
+    data = {}
+    data["feeds"] = {}
+    
+    #for feed in feeds:
+    for index, feed in enumerate(feeds):    
+        data["feeds"][index] = {}
+        #print feed["name"]
+        
+        temp = aio.receive(feed["name"])
+        #feedValues.append([feed['name'], temp.value])
+        
+        data["feeds"][index]["name"] = feed["name"]
+        data["feeds"][index]["value"] = temp.value
+    
+    json_data = json.dumps(data)
+    
+    #print type(data)
+    
+    return data
