@@ -51,3 +51,34 @@ def switch():
     #print type(feedStatus)
     
     return render_template("switch.html", feeds = feeds, feedStatus=feedStatus)
+    
+@app.route('/settings', methods=['GET', 'POST'])
+def settings():
+    
+    requestFeeds = request.form
+    for key in requestFeeds:
+        print key
+        print 'form key '+requestFeeds[key]
+    
+    #postFeedname = request.form.get('feedname')
+    #print 'postFeedname: '
+    #print postFeedname
+    
+    #print argument
+    if requestFeeds is not "":
+        print 'updating status'
+        iotupdate.updateFeedsList(requestFeeds)
+    
+    enabledFeeds = iotupdate.getFeeds()
+    
+    feedStatus = iotupdate.getFeedStatus(enabledFeeds)
+
+    feedsList = iotupdate.getAdafruitFeeds()
+    
+    #print feedsList[0]
+    
+    print enabledFeeds[0]['key']
+    
+    #print type(feedStatus)
+    
+    return render_template("settings.html", feedsList = feedsList, feedStatus=feedStatus, enabledFeeds=enabledFeeds)

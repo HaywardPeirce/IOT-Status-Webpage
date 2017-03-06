@@ -27,6 +27,7 @@ def getAdafruitStatus(feed):
 def setAdafruitStatus(feed, value):
     aio.send(feed, value)
 
+#get a list of the enabled feeds listed in the file
 def getFeeds():
     with open('./feeds.json') as feeds_file:    
         feeds = json.load(feeds_file)
@@ -34,15 +35,31 @@ def getFeeds():
     #print feeds['feeds']
     
     return feeds['feeds']
+ 
+#get a list of all the adafruit feeds  
+def getAdafruitFeeds():
     
+    count = 0
+    
+    feeds = aio.feeds()
+    
+    feedList = {}
+    feedList["feeds"] = {}
+    
+    for feed in feeds:
+        feedList["feeds"][count] = {}
+        feedList["feeds"][count]["name"] = feed.name
+        feedList["feeds"][count]["key"] = feed.key
+        count = count + 1
+    
+    #print feedList
+    feedList = feedList['feeds']
+    #print feedList
+    return feedList
+
+#lookup the current values of the listed feeds in Adafruit
 def getFeedStatus(feeds):
     feedValues = []
-    
-    friends = '{"name": "Fred", "id": 1}'
-
-
-    friends_obj = json.loads(friends)
-    
     
     data = {}
     data["feeds"] = {}
@@ -52,14 +69,22 @@ def getFeedStatus(feeds):
         data["feeds"][index] = {}
         #print feed["name"]
         
-        temp = aio.receive(feed["name"])
+        temp = aio.receive(feed["key"])
         #feedValues.append([feed['name'], temp.value])
         
-        data["feeds"][index]["name"] = feed["name"]
+        data["feeds"][index]["key"] = feed["key"]
         data["feeds"][index]["value"] = temp.value
     
-    json_data = json.dumps(data)
+    #json_data = json.dumps(data)
     
     #print type(data)
     
     return data
+    
+def updateFeedsList(updateFeeds):
+    updateFeeds
+    enabledFeeds = getFeeds()
+    #print enabledFeeds
+    availableFeeds = getAdafruitFeeds()
+    #print availableFeeds
+    

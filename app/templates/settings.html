@@ -1,0 +1,55 @@
+<!-- index.html-->
+
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block body %}
+<div class="jumbotron">
+  <h1>List Data</h1>
+  <p class="lead">Lists of data from the Port of Vancouver</p>
+</div>
+
+<div class="container">
+  <h2>List of Ships</h2>
+  <p>A list of ships in the Port of Vancouver</p>            
+  
+  <form action="" method="post">
+  <table class="table table-striped">
+    
+    <thead>
+      <tr>
+        <th>Feed Name</th>
+        <th>Feed key</th>
+        <th>Enabled</th>
+        <th>Feed Name</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for feed in feedsList %}
+      
+      <tr>
+        {% for param in feedsList[feed] %}<td>{{ feedsList[feed][param] }}</td>
+          
+          {% if param == 'key' %}
+            {% for enabledFeed in enabledFeeds %}
+              {% if enabledFeeds[loop.index0]['key'] == feedsList[feed]['key']%}
+                <td><input name="{{ feedsList[feed]['name'] }}" class="checkbox" type="checkbox" value="True" checked></label><td>
+              {% else %}  
+                <td><input name="{{ feedsList[feed]['name'] }}" class="checkbox" type="checkbox" value="True"></label><td>
+              {% endif %}
+            {% endfor %}
+          
+          {% endif %}
+        
+        {% endfor %}
+        
+      </tr>
+    {% else %}
+    <td>Unbelievable.  No entries here so far</td>
+    {% endfor %}
+    </tbody>
+  </table>
+  <input type="submit" value="Submit">
+  </form>
+</div>
+
+{% endblock %}
