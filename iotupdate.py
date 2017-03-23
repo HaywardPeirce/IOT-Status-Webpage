@@ -67,8 +67,8 @@ def getFeedStatus(feeds):
     #for feed in feeds:
     for index, feed in enumerate(feeds):    
         data["feeds"][index] = {}
-        #print feed["name"]
         
+        print feed["key"]
         temp = aio.receive(feed["key"])
         #feedValues.append([feed['name'], temp.value])
         

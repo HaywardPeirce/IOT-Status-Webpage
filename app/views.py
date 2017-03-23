@@ -37,10 +37,14 @@ def switch():
     print postFeedname
     #if switch_state == 'false': switch_state = False
     
-    #print argument
+    #check for presence of POST data, and if it exists: submit it
     if postFeedname and postState is not None:
-        print 'updating status'
+        print 'updating status using POST data'
         iotupdate.updateFeedState(postFeedname, postState)
+        
+    elif getFeedname and getState is not None:
+        print 'updating status using GET data'
+        iotupdate.updateFeedState(getFeedname, getState)
     
     feeds = iotupdate.getFeeds()
     

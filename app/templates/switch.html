@@ -5,24 +5,31 @@
 {% block body %}
 
 <div class="jumbotron">
-  <h1>Flask Is Awesome</h1>
-  <p class="lead">And I'm glad to be learning so much about it!</p>
+  <h1>Relay Management</h1>
+  <p class="lead">Manage the State of your Adafruit.io Relays</p>
 </div>
 
-<input type="button" class="btn" onclick="location.href='/switch?feedname=relay-1&state=OFF';" value="Relay 1 Off" />
+
 
 <div class="container">
   
   {% for feed in feedStatus %}
   
     {% for parameter in feedStatus[feed] %}
-      {{ feedStatus[feed][parameter]['name'] }}
+      <br><h2>{{ feedStatus[feed][parameter]['key'] }}</h2>
+      <h3>Submit Using GET:</h3>
+      <input type="button" class="btn" onclick="location.href='/switch?feedname={{ feedStatus[feed][parameter]['key'] }}&state=OFF';" value="{{ feedStatus[feed][parameter]['key'] }} Off" />
+      <input type="button" class="btn" onclick="location.href='/switch?feedname={{ feedStatus[feed][parameter]['key'] }}&state=ON';" value="{{ feedStatus[feed][parameter]['key'] }} On" />
+      
+      <h3>Submit Using POST:</h3>
       <form action="" method="post">
-        <input type="hidden" value="{{ feedStatus[feed][parameter]['name'] }}" name="feedname">
+        <input type="hidden" value="{{ feedStatus[feed][parameter]['key'] }}" name="feedname">
         <button class="btn" name="state" type="submit" value="OFF">OFF</button>
         <button class="btn" name="state" type="submit" value="ON">ON</button>
       </form>
       The current status of this feed is: {{ feedStatus[feed][parameter]['value'] }}
+      
+      
     {% endfor %}
   {% endfor %}
 </div>
