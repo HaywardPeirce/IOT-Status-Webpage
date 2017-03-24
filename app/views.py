@@ -19,9 +19,12 @@ def index():
 def about():
     return render_template("about.html")
     
+#page to change the state of the relays
 @app.route('/switch', methods=['GET', 'POST'])
 def switch():
-    # add in for receiving multiple different values
+    
+    #get swtich states from the GET values
+    #TODO: add in for receiving multiple different values
     getFeedname = request.args.get('feedname')
     #argument = request.args.get()
     print 'getFeedname: '
@@ -29,33 +32,36 @@ def switch():
     getState = request.args.get('state')
     print 'getState: '
     print getState
+    
+    #get switch states from the POST data
     postState = request.form.get('state')
     print 'postState: '
     print postState
     postFeedname = request.form.get('feedname')
     print 'postFeedname: '
     print postFeedname
-    #if switch_state == 'false': switch_state = False
     
     #check for presence of POST data, and if it exists: submit it
     if postFeedname and postState is not None:
         print 'updating status using POST data'
         iotupdate.updateFeedState(postFeedname, postState)
-        
+    
+    #only if there is no POST data submit the GET data 
     elif getFeedname and getState is not None:
         print 'updating status using GET data'
         iotupdate.updateFeedState(getFeedname, getState)
     
+    #get a list of the enabled feeds listed in the file 
     feeds = iotupdate.getFeeds()
     
+    #get the adafruit statuses of the configured feeds
     feedStatus = iotupdate.getFeedStatus(feeds)
     
-    #print feedStatus
-    
-    #print type(feedStatus)
-    
+    #return the page template, and pass in the list of feeds and the status of the feeds
     return render_template("switch.html", feeds = feeds, feedStatus=feedStatus)
-    
+
+#page for configuring the settings for this admin app. 
+#TODO: functionality like changing which feeds are subscribed to
 @app.route('/settings', methods=['GET', 'POST'])
 def settings():
     

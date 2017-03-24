@@ -11,8 +11,7 @@ file.close()
 print apikey
 aio = Client(apikey)
 
-#setAdafruitKey()
-
+#update a feed value
 def updateFeedState(feed, value):
     cloudValue = getAdafruitStatus(feed)
     
@@ -20,10 +19,12 @@ def updateFeedState(feed, value):
     if cloudValue != str(value):
         setAdafruitStatus(feed, value)
 
+#retrieve the value of a feed in adafruit.io
 def getAdafruitStatus(feed):
     feedStatus = aio.receive(feed)
     return feedStatus
     
+#set the value for a feed in adafruit.io
 def setAdafruitStatus(feed, value):
     aio.send(feed, value)
 
@@ -46,15 +47,16 @@ def getAdafruitFeeds():
     feedList = {}
     feedList["feeds"] = {}
     
+    #loop through the feeds and read in the values to variables
     for feed in feeds:
         feedList["feeds"][count] = {}
         feedList["feeds"][count]["name"] = feed.name
         feedList["feeds"][count]["key"] = feed.key
         count = count + 1
     
-    #print feedList
     feedList = feedList['feeds']
-    #print feedList
+    
+    #return the list of adafruit feeds
     return feedList
 
 #lookup the current values of the listed feeds in Adafruit
@@ -74,10 +76,6 @@ def getFeedStatus(feeds):
         
         data["feeds"][index]["key"] = feed["key"]
         data["feeds"][index]["value"] = temp.value
-    
-    #json_data = json.dumps(data)
-    
-    #print type(data)
     
     return data
     
